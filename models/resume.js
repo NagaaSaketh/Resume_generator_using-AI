@@ -59,9 +59,11 @@ const resumeSchema = new mongoose.Schema(
         title: {
           type: String,
         },
-        description: {
-          type: String,
-        },
+        description: [
+          {
+            type: String,
+          },
+        ],
         techStack: [
           {
             type: String,
@@ -93,9 +95,11 @@ const resumeSchema = new mongoose.Schema(
         currentlyWorking: {
           type: Boolean,
         },
-        description: {
-          type: String,
-        },
+        description: [
+          {
+            type: String,
+          },
+        ],
       },
     ],
     skills: [

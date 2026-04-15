@@ -11,9 +11,11 @@ const { initialiseDB } = require("./db/db.connect");
 
 const authRouter = require("./routes/auth");
 const resumeRouter = require("./routes/resume");
+const resumeAiRouter = require("./routes/resume-ai");
 
 app.use("/", authRouter);
 app.use("/", resumeRouter);
+app.use("/", resumeAiRouter);
 
 initialiseDB();
 

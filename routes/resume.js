@@ -2,7 +2,6 @@ const express = require("express");
 const { userAuth } = require("../middlewares/auth");
 const resumeRouter = express.Router();
 const Resume = require("../models/resume");
-const { default: mongoose } = require("mongoose");
 
 // API route to create a resume
 
