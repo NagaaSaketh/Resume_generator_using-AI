@@ -1,6 +1,7 @@
 const express = require("express");
 const { userAuth } = require("../middlewares/auth");
 const resumeRouter = express.Router();
+const mongoose = require("mongoose");
 const Resume = require("../models/resume");
 
 // API route to create a resume
@@ -18,6 +19,7 @@ resumeRouter.post("/resumes", userAuth, async (req, res) => {
       certifications,
       skills,
       languages,
+      place
     } = req.body;
 
     if (

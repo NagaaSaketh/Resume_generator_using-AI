@@ -4,6 +4,7 @@ const { validateSignUpData } = require("../utils/validator");
 const bcrypt = require("bcrypt");
 const authRouter = express.Router();
 const jwt = require("jsonwebtoken");
+const { userAuth } = require("../middlewares/auth");
 
 // API route to create a new user
 
@@ -82,7 +83,7 @@ authRouter.post("/login", async (req, res) => {
       });
       res.status(200).json({ message: "Login successful!", user });
     } else {
-      res.status(400).json({ message: "Invalid Credentials" });
+      res.status(401).json({ message: "Invalid Credentials" });
     }
   } catch (err) {
     res.status(500).json({ message: "Failed to login", error: err.message });
@@ -99,6 +100,19 @@ authRouter.post("/logout", (req, res) => {
     path: "/",
   });
   res.status(200).send("Logout successful!");
+});
+
+// API route to get loggedin user details
+
+authRouter.get("/profile", userAuth, async (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (err) {
+    res.status(500).json({
+      message: "Failed to fetch user details",
+      error: err.message,
+    });
+  }
 });
 
 module.exports = authRouter;

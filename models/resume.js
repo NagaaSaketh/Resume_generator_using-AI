@@ -52,6 +52,9 @@ const resumeSchema = new mongoose.Schema(
         grade: {
           type: Number,
         },
+        place:{
+          type:String
+        }
       },
     ],
     projects: [
@@ -74,6 +77,12 @@ const resumeSchema = new mongoose.Schema(
         },
         demoLink: {
           type: String,
+        },
+        startDate: {
+          type: Date,
+        },
+        endDate: {
+          type: Date,
         },
       },
     ],
