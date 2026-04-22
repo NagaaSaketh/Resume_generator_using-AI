@@ -20,7 +20,6 @@ const resumeSchema = new mongoose.Schema(
     },
     title: {
       type: String,
-      required: true,
     },
     description: {
       type: String,
@@ -52,9 +51,9 @@ const resumeSchema = new mongoose.Schema(
         grade: {
           type: Number,
         },
-        place:{
-          type:String
-        }
+        place: {
+          type: String,
+        },
       },
     ],
     projects: [
@@ -124,14 +123,8 @@ const resumeSchema = new mongoose.Schema(
     ],
     languages: [
       {
-        name: {
-          type: String,
-          required: true,
-        },
-        proficiency: {
-          type: String,
-          required: true,
-        },
+        type: String,
+        required: true,
       },
     ],
   },
