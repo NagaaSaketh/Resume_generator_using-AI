@@ -196,12 +196,10 @@ ${description}
 
 resumeAiRouter.post("/improve-project", userAuth, async (req, res) => {
   try {
-    const { title="", description } = req.body;
+    const { title = "", description } = req.body;
 
     if (!description) {
-      return res
-        .status(400)
-        .json({ message: "Description is required!" });
+      return res.status(400).json({ message: "Description is required!" });
     }
 
     const prompt = `
@@ -218,9 +216,10 @@ Return JSON:
   "description": ["point1", "point2"]
 }
 
+Respond ONLY with valid JSON. No markdown, no explanation, no backticks.
+
 Input:
-Title: ${title}
-Tech: ${techStack}
+
 Description: ${description}
 `;
 
@@ -268,14 +267,16 @@ Rules:
 - Keep it concise
 - No fake numbers
 
+
 Return JSON:
 {
   "description": ["point1", "point2"]
 }
 
+Respond ONLY with valid JSON. No markdown, no explanation, no backticks.
+
 Input:
-Company: ${company}
-Role: ${role}
+
 Description: ${description}
 `;
 
