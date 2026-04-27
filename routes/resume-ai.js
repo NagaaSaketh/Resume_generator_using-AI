@@ -169,7 +169,8 @@ resumeAiRouter.post("/improve-description", userAuth, async (req, res) => {
 Rewrite the following resume summary into a strong, professional summary.
 
 Rules:
-- 2–4 lines
+- Write exactly 2–3 sentences
+- Keep total length under 80 words
 - Concise and impactful
 - Highlight skills and strengths
 - No bullet points
