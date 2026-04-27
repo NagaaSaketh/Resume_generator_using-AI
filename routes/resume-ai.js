@@ -164,29 +164,24 @@ resumeAiRouter.post("/improve-description", userAuth, async (req, res) => {
     if (!description) {
       return res.status(400).json({ error: "Description required" });
     }
-
     const prompt = `
-Rewrite the following resume summary into a strong, professional summary.
+You are a resume editor. Rewrite the input into a concise professional summary.
 
-Rules:
-- Write exactly 2–3 sentences
-- Keep total length under 80 words
-- Concise and impactful
-- Highlight skills and strengths
-- No bullet points
-- Do not exceed 3 sentences under any condition
+STRICT RULES (you MUST follow all):
+- Maximum 2 sentences only. Never write 3 or more.
+- Maximum 50 words total. Count carefully.
+- No filler phrases like "Adept at", "skilled at leveraging", "cutting-edge"
+- No bullet points, no markdown
+- Output ONLY the rewritten text, nothing else
 
-Return ONLY plain text. No markdown, no extra explanation.
+Input: ${description}
 
-
-Input:
-${description}
-`;
+Rewritten (2 sentences, max 50 words):`;
 
     const completion = await client.chat.completions.create({
       model,
       messages: [{ role: "user", content: prompt }],
-      temperature: 0.4,
+      temperature: 0.2,
     });
 
     const improved = completion.choices[0].message.content.trim();
