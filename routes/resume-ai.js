@@ -157,4 +157,153 @@ resumeAiRouter.post(
   },
 );
 
+resumeAiRouter.post("/improve-description", userAuth, async (req, res) => {
+  try {
+    const { description } = req.body;
+
+    if (!description) {
+      return res.status(400).json({ error: "Description required" });
+    }
+
+    const prompt = `
+Rewrite the following resume summary into a strong, professional summary.
+
+Rules:
+- 2–4 lines
+- Concise and impactful
+- Highlight skills and strengths
+- No bullet points
+
+Return ONLY plain text.
+
+Input:
+${description}
+`;
+
+    const completion = await client.chat.completions.create({
+      model,
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.4,
+    });
+
+    const improved = completion.choices[0].message.content.trim();
+
+    res.json({ description: improved });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+resumeAiRouter.post("/improve-project", userAuth, async (req, res) => {
+  try {
+    const { title="", description } = req.body;
+
+    if (!description) {
+      return res
+        .status(400)
+        .json({ message: "Description is required!" });
+    }
+
+    const prompt = `
+Improve this project description into 2–4 strong resume bullet points.
+
+Rules:
+- Use action verbs
+- Mention tech stack
+- Be concise
+- No fake metrics
+
+Return JSON:
+{
+  "description": ["point1", "point2"]
+}
+
+Input:
+Title: ${title}
+Tech: ${techStack}
+Description: ${description}
+`;
+
+    const completion = await client.chat.completions.create({
+      model,
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.4,
+    });
+
+    let output = completion.choices[0].message.content.trim();
+
+    if (output.startsWith("```")) {
+      output = output.replace(/```json|```/g, "").trim();
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(output);
+    } catch (err) {
+      return res.status(500).json({
+        error: "AI returned invalid JSON",
+      });
+    }
+
+    res.json({ description: parsed.description });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+resumeAiRouter.post("/improve-experience", userAuth, async (req, res) => {
+  try {
+    const { company = "", role = "", description } = req.body;
+
+    if (!description) {
+      return res.status(400).json({ message: "Description is required!" });
+    }
+
+    const prompt = `
+Improve this work experience into 2–4 strong resume bullet points.
+
+Rules:
+- Use action verbs
+- Focus on impact
+- Keep it concise
+- No fake numbers
+
+Return JSON:
+{
+  "description": ["point1", "point2"]
+}
+
+Input:
+Company: ${company}
+Role: ${role}
+Description: ${description}
+`;
+
+    const completion = await client.chat.completions.create({
+      model,
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.4,
+    });
+
+    let output = completion.choices[0].message.content.trim();
+
+    if (output.startsWith("```")) {
+      output = output.replace(/```json|```/g, "").trim();
+    }
+
+    let parsed;
+    try {
+      parsed = JSON.parse(output);
+    } catch (err) {
+      return res.status(500).json({
+        error: "AI returned invalid JSON",
+      });
+    }
+
+    res.json({ description: parsed.description });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = resumeAiRouter;
