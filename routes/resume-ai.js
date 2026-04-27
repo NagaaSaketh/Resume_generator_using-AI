@@ -175,7 +175,8 @@ Rules:
 - Highlight skills and strengths
 - No bullet points
 
-Return ONLY plain text.
+Return ONLY plain text. No markdown, no extra explanation.
+
 
 Input:
 ${description}
