@@ -174,6 +174,7 @@ Rules:
 - Concise and impactful
 - Highlight skills and strengths
 - No bullet points
+- Do not exceed 3 sentences under any condition
 
 Return ONLY plain text. No markdown, no extra explanation.
 
